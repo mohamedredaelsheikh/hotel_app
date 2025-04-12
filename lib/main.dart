@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hotel_app/core/utils/app_route.dart';
-import 'package:hotel_app/core/utils/constants.dart';
 
 void main() {
   runApp(const HotelApp());
@@ -14,7 +13,6 @@ class HotelApp extends StatelessWidget {
     return MaterialApp.router(
       routerConfig: AppRouter.router,
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(scaffoldBackgroundColor: kPrimaryColor),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hotel_app/core/utils/constants.dart';
 import 'package:hotel_app/features/splash/presentation/widgets/splash_view_body.dart';
 
 class SplashView extends StatelessWidget {
@@ -6,6 +7,8 @@ class SplashView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: Scaffold(body: SplashViewBody()));
+    return SafeArea(
+      child: Scaffold(body: SplashViewBody(), backgroundColor: kPrimaryColor),
+    );
   }
 }
