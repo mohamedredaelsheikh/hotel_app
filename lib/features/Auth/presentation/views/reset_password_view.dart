@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:hotel_app/core/utils/constants.dart';
+import 'package:hotel_app/core/constants/constants.dart';
 
 import 'package:hotel_app/features/Auth/presentation/widgets/reset_password_view_body.dart';
 import 'package:hotel_app/features/Auth/presentation/widgets/welcome_signin.dart';
@@ -46,8 +46,6 @@ class ResetPasswordView extends StatelessWidget {
             subtitle:
                 'characters long and include at least one\nlowercase letter, one uppercase letter, and\n                        one number.',
           ),
-
-          // نص "Reset Password" و "characters long and include..."
         ],
       ),
     );

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hotel_app/core/utils/app_route.dart';
-import 'package:hotel_app/core/utils/constants.dart';
+import 'package:hotel_app/core/constants/constants.dart';
 import 'package:hotel_app/core/utils/styles.dart';
 import 'package:hotel_app/core/widgets/custom_button.dart';
 import 'package:hotel_app/core/widgets/customtextfield.dart';

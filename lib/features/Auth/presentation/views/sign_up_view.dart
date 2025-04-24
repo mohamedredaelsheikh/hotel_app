@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hotel_app/core/utils/constants.dart';
+import 'package:hotel_app/core/constants/constants.dart';
 import 'package:hotel_app/features/Auth/presentation/widgets/sign_up_view_body.dart';
 import 'package:hotel_app/features/Auth/presentation/widgets/welcome_signin.dart';
 
@@ -29,7 +29,7 @@ class SignUpView extends StatelessWidget {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     blurRadius: 10,
                     offset: const Offset(0, -5),
                   ),

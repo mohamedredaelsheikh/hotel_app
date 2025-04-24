@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:hotel_app/core/utils/constants.dart';
+import 'package:hotel_app/core/constants/constants.dart';
 
 import 'package:hotel_app/features/Auth/presentation/widgets/sign_in_view_body.dart';
 import 'package:hotel_app/features/Auth/presentation/widgets/welcome_signin.dart';
