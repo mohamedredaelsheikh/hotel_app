@@ -7,7 +7,9 @@ import 'package:hotel_app/features/Auth/data/sources/auth_api_service.dart';
 
 class AuthRepoImpl extends AuthRepo {
   @override
-  Future<Either<Failure, dynamic>> signUp(SignUpReqModel signUpReqModel) async {
+  Future<Either<Failure, SignUpReqModel>> signUp(
+    SignUpReqModel signUpReqModel,
+  ) async {
     return await getit.get<AuthApiService>().signUp(signUpReqModel);
   }
 }
