@@ -156,11 +156,7 @@ class _SignUpFormState extends State<SignUpForm> {
                     {
                       if (_formKey.currentState!.validate() == false) {
                         {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('Please Check Your Enter Data'),
-                            ),
-                          );
+                          showErrorSnackBar(context, ' please Check your data');
                         }
                       }
 

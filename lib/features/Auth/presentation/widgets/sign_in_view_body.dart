@@ -1,11 +1,16 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hotel_app/core/utils/app_route.dart';
 import 'package:hotel_app/core/constants/constants.dart';
+import 'package:hotel_app/core/utils/service_locator.dart';
 import 'package:hotel_app/core/utils/styles.dart';
 import 'package:hotel_app/core/widgets/custom_button.dart';
 import 'package:hotel_app/core/widgets/customtextfield.dart';
+import 'package:hotel_app/features/Auth/Domain/Usecases/sign_in_usecase.dart';
+import 'package:hotel_app/features/Auth/data/models/sign_in_req_model.dart';
+import 'package:hotel_app/features/Auth/presentation/manager/AuthButtomCubit/auth_buttom_cubit.dart';
 
 class SignInForm extends StatefulWidget {
   const SignInForm({super.key});
@@ -92,17 +97,24 @@ class _SignInFormState extends State<SignInForm> {
               const SizedBox(height: 24),
 
               // زرار "Sign in"
-              CustomButton(
-                buttomname: 'Sign in',
-                textColor: Colors.white,
-                backgroundColor: kPrimaryColor,
-                onTap: () {
-                  if (_formKey.currentState!.validate()) {
-                    // هنا هتحط الـ logic بتاع تسجيل الدخول
-                    // لو تسجيل الدخول نجح، تنقل لـ HomeView
-                    context.go(AppRouter.kHomeView);
-                  }
-                },
+              BlocProvider.value(
+                value: context.read<AuthButtomCubit>(),
+                child: CustomButton(
+                  buttomname: 'Sign in',
+                  textColor: Colors.white,
+                  backgroundColor: kPrimaryColor,
+                  onTap: () {
+                    if (_formKey.currentState!.validate()) {
+                      context.read<AuthButtomCubit>().excute(
+                        usecase: getit<SignInUsecase>(),
+                        params: SignInReqModel(
+                          email: emailController.text,
+                          password: passwordController.text,
+                        ),
+                      );
+                    }
+                  },
+                ),
               ),
               const SizedBox(height: 16),
 
