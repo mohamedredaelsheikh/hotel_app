@@ -16,4 +16,8 @@ class AuthloginCubit extends Cubit<AuthloginState> {
       emit(UnAuthenticated());
     }
   }
+
+  void logout() {
+    emit(UnAuthenticated());
+  }
 }

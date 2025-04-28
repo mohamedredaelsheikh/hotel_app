@@ -6,10 +6,12 @@ import 'package:hotel_app/core/network/dio_client.dart';
 import 'package:hotel_app/core/utils/service_locator.dart';
 import 'package:hotel_app/features/Auth/data/models/sign_in_req_model.dart';
 import 'package:hotel_app/features/Auth/data/models/sign_up_req_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class AuthApiService {
   Future<Either<Failure, dynamic>> signUp(SignUpReqModel signUpReqModel);
   Future<Either<Failure, dynamic>> signIn(SignInReqModel signInReqModel);
+  Future<Either<Failure, dynamic>> getUser();
 }
 
 class AuthApiServiceImpl implements AuthApiService {
@@ -33,6 +35,22 @@ class AuthApiServiceImpl implements AuthApiService {
       var response = await getit.get<DioClient>().post(
         ApiUrls.signIn,
         data: signInReqModel.toMap(),
+      );
+
+      return Right(response.data);
+    } on DioException catch (e) {
+      return Left(ServerFailure.fromDioException(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, dynamic>> getUser() async {
+    try {
+      var sheredPreferences = await SharedPreferences.getInstance();
+      var token = sheredPreferences.getString('token');
+      var response = await getit.get<DioClient>().get(
+        ApiUrls.currentUser,
+        options: Options(headers: {'Authorization': 'Bearer $token'}),
       );
 
       return Right(response.data);

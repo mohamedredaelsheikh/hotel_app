@@ -7,4 +7,6 @@ abstract class AuthRepo {
   Future<Either<Failure, dynamic>> signUp(SignUpReqModel signUpReqModel);
   Future<Either<Failure, dynamic>> signIn(SignInReqModel signInReqModel);
   Future<bool> isLoggedIn();
+  Future<Either<Failure, dynamic>> getUser();
+  Future<Either> logout();
 }
