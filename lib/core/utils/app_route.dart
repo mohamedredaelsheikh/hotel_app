@@ -1,4 +1,6 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hotel_app/features/Auth/presentation/manager/auth_cubit/authlogin_cubit.dart';
 import 'package:hotel_app/features/Auth/presentation/views/forget_password_view.dart';
 import 'package:hotel_app/features/Auth/presentation/views/reset_password_view.dart';
 import 'package:hotel_app/features/Auth/presentation/views/sign_in_view.dart';
@@ -47,5 +49,14 @@ abstract class AppRouter {
       ),
       GoRoute(path: kHomeView, builder: (context, state) => const HomeView()),
     ],
+    redirect: (context, state) {
+      final authState = context.read<AuthloginCubit>().state;
+
+      if (authState is Authenticated) {
+        return kHomeView;
+      }
+      return null;
+    },
+    debugLogDiagnostics: true,
   );
 }

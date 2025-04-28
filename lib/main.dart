@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hotel_app/core/utils/app_route.dart';
 import 'package:hotel_app/core/utils/service_locator.dart';
+import 'package:hotel_app/features/Auth/presentation/manager/auth_cubit/authlogin_cubit.dart';
 
 void main() {
   setupServiceLocator();
@@ -12,9 +14,12 @@ class HotelApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routerConfig: AppRouter.router,
-      debugShowCheckedModeBanner: false,
+    return BlocProvider(
+      create: (context) => AuthloginCubit()..appStarted(),
+      child: MaterialApp.router(
+        routerConfig: AppRouter.router,
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 }
