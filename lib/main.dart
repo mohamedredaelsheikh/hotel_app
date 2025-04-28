@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hotel_app/core/utils/app_route.dart';
+import 'package:hotel_app/core/utils/service_locator.dart';
 
 void main() {
+  setupServiceLocator();
   runApp(const HotelApp());
 }
 

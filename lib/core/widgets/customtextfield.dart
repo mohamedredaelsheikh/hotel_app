@@ -10,14 +10,16 @@ class CustomFormTextField extends StatelessWidget {
     this.obscure = false,
     this.controller,
     this.keyboardType,
+    this.validator,
+    this.suffixIcon,
   });
-
+  final String? Function(String?)? validator;
   final bool obscure;
   final String hintText;
   final Function(String)? onChange;
   final TextEditingController? controller;
   final TextInputType? keyboardType;
-
+  final Widget? suffixIcon;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -39,7 +41,9 @@ class CustomFormTextField extends StatelessWidget {
           borderRadius: BorderRadius.circular(24),
           borderSide: const BorderSide(color: kPrimaryColor),
         ),
+        suffixIcon: suffixIcon,
       ),
+
       validator: (value) {
         if (value == null || value.isEmpty) {
           return 'Please enter required data';

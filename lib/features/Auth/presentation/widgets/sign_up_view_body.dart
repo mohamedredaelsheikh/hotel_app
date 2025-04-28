@@ -1,11 +1,18 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hotel_app/core/functions/build_error_snack_bar.dart';
+import 'package:hotel_app/core/functions/valided_password.dart';
 import 'package:hotel_app/core/utils/app_route.dart';
 import 'package:hotel_app/core/constants/constants.dart';
+import 'package:hotel_app/core/utils/service_locator.dart';
 import 'package:hotel_app/core/utils/styles.dart';
 import 'package:hotel_app/core/widgets/custom_button.dart';
 import 'package:hotel_app/core/widgets/customtextfield.dart';
+import 'package:hotel_app/features/Auth/Domain/Usecases/sign_up_usecase.dart';
+import 'package:hotel_app/features/Auth/data/models/sign_up_req_model.dart';
+import 'package:hotel_app/features/Auth/presentation/manager/AuthButtomCubit/auth_buttom_cubit.dart';
 
 class SignUpForm extends StatefulWidget {
   const SignUpForm({super.key});
@@ -21,6 +28,8 @@ class _SignUpFormState extends State<SignUpForm> {
   final TextEditingController confirmPasswordController =
       TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool _obscurePassword = true;
+  bool _obscureConfirmPassword = true;
 
   @override
   void dispose() {
@@ -67,7 +76,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 controller: emailController,
 
                 hintText: 'Email',
-                obscure: true,
+                obscure: false,
               ),
               const SizedBox(height: 16),
 
@@ -83,7 +92,18 @@ class _SignUpFormState extends State<SignUpForm> {
               CustomFormTextField(
                 controller: passwordController,
                 hintText: 'Password',
-                obscure: true,
+                obscure: _obscurePassword,
+                validator: validatePassword,
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _obscurePassword = !_obscurePassword;
+                    });
+                  },
+                ),
               ),
               const SizedBox(height: 16),
 
@@ -99,30 +119,67 @@ class _SignUpFormState extends State<SignUpForm> {
               CustomFormTextField(
                 controller: confirmPasswordController,
                 hintText: 'Confirm Password',
-                obscure: true,
+                obscure: _obscureConfirmPassword,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please confirm your password';
+                  }
+                  if (value != passwordController.text) {
+                    return 'Passwords do not match';
+                  }
+                  return null;
+                },
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    _obscureConfirmPassword
+                        ? Icons.visibility_off
+                        : Icons.visibility,
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      _obscureConfirmPassword = !_obscureConfirmPassword;
+                    });
+                  },
+                ),
               ),
+
               const SizedBox(height: 24),
 
               // زرار "Sign Up"
-              CustomButton(
-                buttomname: 'Sign Up',
-                textColor: Colors.white,
-                backgroundColor: kPrimaryColor,
-                onTap: () {
-                  if (_formKey.currentState!.validate()) {
-                    // التحقق من تطابق كلمة المرور
-                    if (passwordController.text !=
-                        confirmPasswordController.text) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Passwords do not match')),
+              BlocProvider.value(
+                value: context.read<AuthButtomCubit>(),
+                child: CustomButton(
+                  buttomname: 'Sign Up',
+                  textColor: Colors.white,
+                  backgroundColor: kPrimaryColor,
+                  onTap: () {
+                    {
+                      if (_formKey.currentState!.validate() == false) {
+                        {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Please Check Your Enter Data'),
+                            ),
+                          );
+                        }
+                      }
+
+                      context.read<AuthButtomCubit>().excute(
+                        usecase: getit<SignUpUsecase>(),
+                        params: SignUpReqModel(
+                          userName: nameController.text,
+                          email: emailController.text,
+                          password: passwordController.text,
+                          confirmPassword: confirmPasswordController.text,
+                        ),
                       );
-                      return;
+                      showErrorSnackBar(
+                        context,
+                        'Sign Up Successfully \n, please Check your email acount to activate your account',
+                      );
                     }
-                    // هنا هتحط الـ logic بتاع التسجيل
-                    // لو التسجيل نجح، تنقل لـ HomeView
-                    context.go(AppRouter.kHomeView);
-                  }
-                },
+                  },
+                ),
               ),
               const SizedBox(height: 16),
 

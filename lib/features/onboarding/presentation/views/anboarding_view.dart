@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hotel_app/core/utils/app_route.dart';
+import 'package:hotel_app/features/Auth/presentation/manager/AuthButtomCubit/auth_buttom_cubit.dart';
+import 'package:hotel_app/features/Auth/presentation/manager/AuthButtomCubit/auth_buttom_state.dart';
 import 'package:hotel_app/features/onboarding/presentation/widgets/onboarding_view_body.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -74,37 +77,43 @@ class OnBoardingViewState extends State<OnBoardingView> {
       return const SizedBox.shrink();
     }
 
-    return Scaffold(
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: PageView.builder(
-                controller: _pageController,
-                itemCount: onboardingData.length,
-                itemBuilder:
-                    (context, index) => OnBoardingViewBody(
-                      imagePath: onboardingData[index]["image"]!,
-                      text: onboardingData[index]["text"]!,
-                      isLastPage: index == onboardingData.length - 1,
-                      onSkip: () {
-                        _completeOnboarding();
-                      },
-                      onNext: () {
-                        if (index == onboardingData.length - 1) {
-                          _completeOnboarding();
-                        } else {
-                          _pageController.nextPage(
-                            duration: const Duration(milliseconds: 300),
-                            curve: Curves.easeIn,
-                          );
-                        }
-                      },
-                      pageController: _pageController,
-                    ),
-              ),
+    return BlocProvider(
+      create: (context) => AuthButtomCubit(),
+      child: BlocListener<AuthButtomCubit, AuthButtomState>(
+        listener: (context, state) {},
+        child: Scaffold(
+          body: SafeArea(
+            child: Column(
+              children: [
+                Expanded(
+                  child: PageView.builder(
+                    controller: _pageController,
+                    itemCount: onboardingData.length,
+                    itemBuilder:
+                        (context, index) => OnBoardingViewBody(
+                          imagePath: onboardingData[index]["image"]!,
+                          text: onboardingData[index]["text"]!,
+                          isLastPage: index == onboardingData.length - 1,
+                          onSkip: () {
+                            _completeOnboarding();
+                          },
+                          onNext: () {
+                            if (index == onboardingData.length - 1) {
+                              _completeOnboarding();
+                            } else {
+                              _pageController.nextPage(
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.easeIn,
+                              );
+                            }
+                          },
+                          pageController: _pageController,
+                        ),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
