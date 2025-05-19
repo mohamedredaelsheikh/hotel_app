@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hotel_app/features/Auth/presentation/manager/auth_cubit/authlogin_cubit.dart';
+import 'package:hotel_app/features/Auth/presentation/views/email_verification_view.dart';
 import 'package:hotel_app/features/Auth/presentation/views/forget_password_view.dart';
 import 'package:hotel_app/features/Auth/presentation/views/reset_password_view.dart';
 import 'package:hotel_app/features/Auth/presentation/views/sign_in_view.dart';
@@ -18,6 +19,7 @@ abstract class AppRouter {
   static const kSignUpView = '/signUpView';
   static const kForgotPasswordView = '/forgotPasswordView';
   static const kResetPasswordView = '/resetPasswordView';
+  static const kEmailVerificationView = '/emailVerificationView';
 
   static final router = GoRouter(
     initialLocation: kSplashView,
@@ -43,9 +45,14 @@ abstract class AppRouter {
         path: kForgotPasswordView,
         builder: (context, state) => const ForgetPasswordView(),
       ),
+
       GoRoute(
         path: kResetPasswordView,
         builder: (context, state) => const ResetPasswordView(),
+      ),
+      GoRoute(
+        path: kEmailVerificationView,
+        builder: (context, state) => const EmailVerificationView(),
       ),
       GoRoute(path: kHomeView, builder: (context, state) => const HomeView()),
     ],

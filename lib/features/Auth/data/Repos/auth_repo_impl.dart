@@ -58,4 +58,17 @@ class AuthRepoImpl extends AuthRepo {
   Future<Either> logout() async {
     return await getit<AuthLocalService>().logout();
   }
+
+  @override
+  Future<Either<Failure, dynamic>> forgetPassword(String email) async {
+    var result = await getit.get<AuthApiService>().forgetPassword(email);
+    return result.fold(
+      (error) {
+        return Left(error);
+      },
+      (data) {
+        return Right(data);
+      },
+    );
+  }
 }

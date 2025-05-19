@@ -12,6 +12,7 @@ abstract class AuthApiService {
   Future<Either<Failure, dynamic>> signUp(SignUpReqModel signUpReqModel);
   Future<Either<Failure, dynamic>> signIn(SignInReqModel signInReqModel);
   Future<Either<Failure, dynamic>> getUser();
+  Future<Either<Failure, dynamic>> forgetPassword(String email);
 }
 
 class AuthApiServiceImpl implements AuthApiService {
@@ -51,6 +52,20 @@ class AuthApiServiceImpl implements AuthApiService {
       var response = await getit.get<DioClient>().get(
         ApiUrls.currentUser,
         options: Options(headers: {'Authorization': 'Bearer $token'}),
+      );
+
+      return Right(response.data);
+    } on DioException catch (e) {
+      return Left(ServerFailure.fromDioException(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, dynamic>> forgetPassword(String email) async {
+    try {
+      var response = await getit.get<DioClient>().post(
+        ApiUrls.forgetPassword,
+        data: {'email': email},
       );
 
       return Right(response.data);

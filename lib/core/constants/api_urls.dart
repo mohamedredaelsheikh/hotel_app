@@ -3,4 +3,5 @@ class ApiUrls {
   static const String signUp = '$baseUrl/signup';
   static const String signIn = '$baseUrl/login';
   static const String currentUser = '$baseUrl/CurrentUser';
+  static const String forgetPassword = '$baseUrl/ForgetPassword';
 }
