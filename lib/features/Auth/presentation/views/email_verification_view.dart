@@ -14,6 +14,8 @@ class EmailVerificationView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final email = GoRouterState.of(context).extra as String?;
+
     return BlocProvider(
       create: (context) => AuthButtomCubit(),
       child: BlocListener<AuthButtomCubit, AuthButtomState>(
@@ -51,7 +53,7 @@ class EmailVerificationView extends StatelessWidget {
                       ),
                     ],
                   ),
-                  child: const EmailVerificationViewBody(),
+                  child: EmailVerificationViewBody(email: email ?? ''),
                 ),
               ),
 

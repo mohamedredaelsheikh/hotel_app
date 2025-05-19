@@ -78,7 +78,10 @@ class _ForgetPasswordViewBodyState extends State<ForgetPasswordViewBody> {
                         ),
                       );
                       // رجّع المستخدم لشاشة SignInView
-                      context.go(AppRouter.kEmailVerificationView);
+                      context.go(
+                        AppRouter.kEmailVerificationView,
+                        extra: emailController.text,
+                      );
                     }
                   },
                 ),
