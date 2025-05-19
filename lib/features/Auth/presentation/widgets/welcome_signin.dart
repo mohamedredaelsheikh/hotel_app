@@ -30,15 +30,20 @@ class WelcomeSignIn extends StatelessWidget {
             children: [
               Text(
                 title,
+                textAlign: TextAlign.center,
                 style: Styles.textStyle24.copyWith(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 8),
-              Text(
-                subtitle,
-                style: Styles.textStyle16.copyWith(color: Colors.white),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Text(
+                  subtitle,
+                  textAlign: TextAlign.center,
+                  style: Styles.textStyle16.copyWith(color: Colors.white),
+                ),
               ),
             ],
           ),

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hotel_app/core/utils/app_route.dart';
 import 'package:hotel_app/core/constants/constants.dart';
+import 'package:hotel_app/core/utils/service_locator.dart';
 import 'package:hotel_app/core/utils/styles.dart';
 import 'package:hotel_app/core/widgets/custom_button.dart';
 import 'package:hotel_app/core/widgets/customtextfield.dart';
+import 'package:hotel_app/features/Auth/Domain/Usecases/forget_password_usecase.dart';
+import 'package:hotel_app/features/Auth/presentation/manager/AuthButtomCubit/auth_buttom_cubit.dart';
 
 class ForgetPasswordViewBody extends StatefulWidget {
   const ForgetPasswordViewBody({super.key});
@@ -35,8 +39,8 @@ class _ForgetPasswordViewBodyState extends State<ForgetPasswordViewBody> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: 40), // مسافة عشان الحقول متتراكمش تحت النص
-              // حقل الـ Email
+              const SizedBox(height: 40),
+
               Text(
                 'Email',
                 style: Styles.textStyle16.copyWith(
@@ -53,23 +57,31 @@ class _ForgetPasswordViewBodyState extends State<ForgetPasswordViewBody> {
               const SizedBox(height: 24),
 
               // زرار "Reset Password"
-              CustomButton(
-                buttomname: 'Reset Password',
-                textColor: Colors.white,
-                backgroundColor: kPrimaryColor,
-                onTap: () {
-                  if (_formKey.currentState!.validate()) {
-                    // هنا هتحط الـ logic بتاع إرسال رابط إعادة تعيين كلمة المرور
-                    // مثلاً باستخدام Firebase أو API
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Password reset link sent to your email'),
-                      ),
-                    );
-                    // رجّع المستخدم لشاشة SignInView
-                    context.go(AppRouter.kResetPasswordView);
-                  }
-                },
+              BlocProvider.value(
+                value: context.read<AuthButtomCubit>(),
+                child: CustomButton(
+                  buttomname: 'Reset Password',
+                  textColor: Colors.white,
+                  backgroundColor: kPrimaryColor,
+                  onTap: () {
+                    if (_formKey.currentState!.validate()) {
+                      context.read<AuthButtomCubit>().excute(
+                        usecase: getit<ForgetPasswordUsecase>(),
+                        params: emailController.text,
+                      );
+
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            'Password reset link sent to your email',
+                          ),
+                        ),
+                      );
+                      // رجّع المستخدم لشاشة SignInView
+                      context.go(AppRouter.kEmailVerificationView);
+                    }
+                  },
+                ),
               ),
               const SizedBox(height: 16),
 

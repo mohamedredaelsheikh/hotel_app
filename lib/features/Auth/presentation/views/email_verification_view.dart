@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-
 import 'package:hotel_app/core/constants/constants.dart';
 import 'package:hotel_app/core/functions/build_error_snack_bar.dart';
 import 'package:hotel_app/core/utils/app_route.dart';
 import 'package:hotel_app/features/Auth/presentation/manager/AuthButtomCubit/auth_buttom_cubit.dart';
 import 'package:hotel_app/features/Auth/presentation/manager/AuthButtomCubit/auth_buttom_state.dart';
-
-import 'package:hotel_app/features/Auth/presentation/widgets/reset_password_view_body.dart';
+import 'package:hotel_app/features/Auth/presentation/widgets/email_verification_view_body.dart';
 import 'package:hotel_app/features/Auth/presentation/widgets/welcome_signin.dart';
 
-class ResetPasswordView extends StatelessWidget {
-  const ResetPasswordView({super.key});
+class EmailVerificationView extends StatelessWidget {
+  const EmailVerificationView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +19,7 @@ class ResetPasswordView extends StatelessWidget {
       child: BlocListener<AuthButtomCubit, AuthButtomState>(
         listener: (context, state) {
           if (state is AuthButtomSuccessState) {
-            context.pushReplacement(AppRouter.kHomeView);
+            context.pushReplacement(AppRouter.kResetPasswordView);
           } else if (state is AuthButtonFailureState) {
             showErrorSnackBar(context, state.errorMessage);
           }
@@ -53,15 +51,17 @@ class ResetPasswordView extends StatelessWidget {
                       ),
                     ],
                   ),
-                  child: const ResetPasswordViewBody(),
+                  child: const EmailVerificationViewBody(),
                 ),
               ),
 
               WelcomeSignIn(
-                title: 'Reset Password',
+                title: 'Email Verification',
                 subtitle:
-                    'characters long and include at least one lowercase letter, one uppercase letter, and one number.',
+                    'Please enter the 6 digit code that send to your email address',
               ),
+
+              // نص "Forget Password" و "Please enter your email address..."
             ],
           ),
         ),
