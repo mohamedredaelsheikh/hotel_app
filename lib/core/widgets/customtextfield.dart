@@ -12,10 +12,12 @@ class CustomFormTextField extends StatelessWidget {
     this.keyboardType,
     this.validator,
     this.suffixIcon,
+    this.hintStyle,
   });
   final String? Function(String?)? validator;
   final bool obscure;
   final String hintText;
+  final TextStyle? hintStyle;
   final Function(String)? onChange;
   final TextEditingController? controller;
   final TextInputType? keyboardType;
@@ -28,7 +30,7 @@ class CustomFormTextField extends StatelessWidget {
       keyboardType: keyboardType,
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: Styles.textStyle16.copyWith(color: Colors.grey),
+        hintStyle: hintStyle ?? Styles.textStyle16.copyWith(color: Colors.grey),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(24),
           borderSide: BorderSide(color: Colors.grey.shade300),

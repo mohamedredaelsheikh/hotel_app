@@ -22,7 +22,7 @@ abstract class AppRouter {
   static const kEmailVerificationView = '/emailVerificationView';
 
   static final router = GoRouter(
-    initialLocation: kSplashView,
+    initialLocation: kHomeView,
     routes: [
       GoRoute(
         path: kSplashView,
