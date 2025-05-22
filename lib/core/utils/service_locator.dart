@@ -7,6 +7,7 @@ import 'package:hotel_app/features/Auth/Domain/Usecases/log_out_usecase.dart';
 import 'package:hotel_app/features/Auth/Domain/Usecases/login_usecase.dart';
 import 'package:hotel_app/features/Auth/Domain/Usecases/sign_in_usecase.dart';
 import 'package:hotel_app/features/Auth/Domain/Usecases/sign_up_usecase.dart';
+import 'package:hotel_app/features/Auth/Domain/Usecases/verfiy_password_usecase.dart';
 import 'package:hotel_app/features/Auth/data/Repos/auth_repo_impl.dart';
 import 'package:hotel_app/features/Auth/data/sources/auth_api_service.dart';
 import 'package:hotel_app/features/Auth/data/sources/auth_local_service.dart';
@@ -31,4 +32,5 @@ void setupServiceLocator() {
   getit.registerSingleton<GetUserUseCase>(GetUserUseCase());
   getit.registerSingleton<LogoutUseCase>(LogoutUseCase());
   getit.registerSingleton<ForgetPasswordUsecase>(ForgetPasswordUsecase());
+  getit.registerSingleton<VerfiyPasswordUsecase>(VerfiyPasswordUsecase());
 }

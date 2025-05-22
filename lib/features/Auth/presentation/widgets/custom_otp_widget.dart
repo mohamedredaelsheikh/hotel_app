@@ -9,12 +9,24 @@ class CustomOtpWidget extends StatefulWidget {
   State<CustomOtpWidget> createState() => CustomOtpWidgetState();
 }
 
-class CustomOtpWidgetState extends State<CustomOtpWidget> {
+class CustomOtpWidgetState extends State<CustomOtpWidget>
+    with AutomaticKeepAliveClientMixin {
   final List<TextEditingController> _controllers = List.generate(
     6,
     (index) => TextEditingController(),
   );
   final List<FocusNode> _focusNodes = List.generate(6, (index) => FocusNode());
+
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  void initState() {
+    super.initState();
+    for (var focusNode in _focusNodes) {
+      focusNode.addListener(() {});
+    }
+  }
 
   @override
   void dispose() {
@@ -35,6 +47,10 @@ class CustomOtpWidgetState extends State<CustomOtpWidget> {
     }
   }
 
+  String getOtp() {
+    return _controllers.map((controller) => controller.text).join();
+  }
+
   void clearFields() {
     for (var controller in _controllers) {
       controller.clear();
@@ -45,35 +61,39 @@ class CustomOtpWidgetState extends State<CustomOtpWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(6, (index) {
-        return Container(
-          margin: EdgeInsets.symmetric(horizontal: 8.0),
-          width: MediaQuery.of(context).size.width * 0.1,
-          child: TextFormField(
-            controller: _controllers[index],
-            focusNode: _focusNodes[index],
-            textAlign: TextAlign.center,
-            keyboardType: TextInputType.number,
-            maxLength: 1,
-            decoration: InputDecoration(
-              counterText: '',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.0),
+    super.build(context); // Required for AutomaticKeepAliveClientMixin
+    return SingleChildScrollView(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: List.generate(6, (index) {
+          return Container(
+            margin: const EdgeInsets.symmetric(horizontal: 8.0),
+            width: 40.0,
+            child: TextFormField(
+              controller: _controllers[index],
+              focusNode: _focusNodes[index],
+              textAlign: TextAlign.center,
+              keyboardType: TextInputType.number,
+              maxLength: 1,
+              decoration: InputDecoration(
+                counterText: '',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                  borderSide: const BorderSide(color: kPrimaryColor),
+                ),
+                filled: true,
+                fillColor: Colors.grey[300],
               ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.0),
-                borderSide: const BorderSide(color: kPrimaryColor),
-              ),
-              filled: true,
-              fillColor: Colors.grey[300],
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              onChanged: (value) => _onChanged(value, index),
+              onTap: () {},
             ),
-            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            onChanged: (value) => _onChanged(value, index),
-          ),
-        );
-      }),
+          );
+        }),
+      ),
     );
   }
 }

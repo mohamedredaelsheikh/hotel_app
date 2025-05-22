@@ -7,6 +7,7 @@ abstract class AuthRepo {
   Future<Either<Failure, dynamic>> signUp(SignUpReqModel signUpReqModel);
   Future<Either<Failure, dynamic>> signIn(SignInReqModel signInReqModel);
   Future<Either<Failure, dynamic>> forgetPassword(String email);
+  Future<Either<Failure, dynamic>> verfiypassword(String email, String otp);
 
   Future<bool> isLoggedIn();
   Future<Either<Failure, dynamic>> getUser();

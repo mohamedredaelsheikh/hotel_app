@@ -71,4 +71,20 @@ class AuthRepoImpl extends AuthRepo {
       },
     );
   }
+
+  @override
+  Future<Either<Failure, dynamic>> verfiypassword(
+    String email,
+    String otp,
+  ) async {
+    var result = await getit.get<AuthApiService>().verfiypassword(email, otp);
+    return result.fold(
+      (error) {
+        return Left(error);
+      },
+      (data) {
+        return Right(data);
+      },
+    );
+  }
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hotel_app/features/home/presentation/widgets/custom_label.dart';
 import 'package:hotel_app/features/home/presentation/widgets/custom_location_layout.dart';
-import 'package:hotel_app/features/home/presentation/widgets/custom_nearby_hotel_card.dart';
 import 'package:hotel_app/features/home/presentation/widgets/custom_nearby_hotel_list_view.dart';
 import 'package:hotel_app/features/home/presentation/widgets/recommended_list_view.dart';
 import 'package:hotel_app/features/home/presentation/widgets/search_bar.dart';
