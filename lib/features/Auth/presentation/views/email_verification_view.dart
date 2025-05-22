@@ -55,7 +55,10 @@ class EmailVerificationView extends StatelessWidget {
                     if (state is OtpcubitFailure) {
                       showErrorSnackBar(context, state.message);
                     } else if (state is OtpcubitSuccess) {
-                      context.pushReplacement(AppRouter.kResetPasswordView);
+                      context.pushReplacement(
+                        AppRouter.kResetPasswordView,
+                        extra: {'email': state.email, 'token': state.token},
+                      );
                     }
                   },
                   builder: (context, state) {

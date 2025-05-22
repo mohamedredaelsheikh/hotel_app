@@ -40,11 +40,13 @@ class ServerFailure extends Failure {
   factory ServerFailure.fromResponse(int statusCode, dynamic response) {
     if (statusCode == 400 || statusCode == 401 || statusCode == 403) {
       return ServerFailure(
-        errormessage: response['errors']?[0] ?? 'Invalid request',
+        errormessage:
+            "Oops, there was an error with email or password. Please try again",
       );
     } else if (statusCode == 404) {
       return ServerFailure(
-        errormessage: 'Your request was not found. Please try again',
+        errormessage:
+            "Oops, there was an error with email or password. Please try again",
       );
     } else if (statusCode == 505) {
       return ServerFailure(

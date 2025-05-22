@@ -23,7 +23,7 @@ class OtpcubitCubit extends Cubit<OtpcubitState> {
           emit(OtpcubitFailure(message: error));
         },
         (data) {
-          emit(OtpcubitSuccess());
+          emit(OtpcubitSuccess(email: data['email'], token: data['token']));
         },
       );
     } catch (e) {

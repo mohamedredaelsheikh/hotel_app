@@ -12,4 +12,9 @@ final class OtpcubitFailure extends OtpcubitState {
   OtpcubitFailure({required this.message});
 }
 
-final class OtpcubitSuccess extends OtpcubitState {}
+final class OtpcubitSuccess extends OtpcubitState {
+  final String email;
+  final String token;
+
+  OtpcubitSuccess({required this.email, required this.token});
+}

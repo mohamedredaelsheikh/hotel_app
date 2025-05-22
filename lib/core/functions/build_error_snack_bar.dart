@@ -27,7 +27,7 @@ void showErrorSnackBar(BuildContext context, String errMessage) {
         ],
       ),
       backgroundColor: kPrimaryColor.withValues(
-        alpha: 150,
+        alpha: 0.8,
       ), // لون الخلفية مع شفافية
       behavior: SnackBarBehavior.floating, // عشان تبقى عائمة
       shape: RoundedRectangleBorder(

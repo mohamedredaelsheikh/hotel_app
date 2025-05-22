@@ -4,6 +4,7 @@ import 'package:hotel_app/core/constants/api_urls.dart';
 import 'package:hotel_app/core/errors/failure.dart';
 import 'package:hotel_app/core/network/dio_client.dart';
 import 'package:hotel_app/core/utils/service_locator.dart';
+import 'package:hotel_app/features/Auth/data/models/ressetpasswordmodel.dart';
 import 'package:hotel_app/features/Auth/data/models/sign_in_req_model.dart';
 import 'package:hotel_app/features/Auth/data/models/sign_up_req_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,6 +15,9 @@ abstract class AuthApiService {
   Future<Either<Failure, dynamic>> getUser();
   Future<Either<Failure, dynamic>> forgetPassword(String email);
   Future<Either<Failure, dynamic>> verfiypassword(String email, String otp);
+  Future<Either<Failure, dynamic>> ressetpassword(
+    Ressetpasswordmodel ressetPasswordModel,
+  );
 }
 
 class AuthApiServiceImpl implements AuthApiService {
@@ -84,6 +88,22 @@ class AuthApiServiceImpl implements AuthApiService {
       var response = await getit.get<DioClient>().post(
         ApiUrls.verfiyPassword,
         data: {'email': email, 'otp': otp},
+      );
+
+      return Right(response.data);
+    } on DioException catch (e) {
+      return Left(ServerFailure.fromDioException(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, dynamic>> ressetpassword(
+    Ressetpasswordmodel ressetPasswordModel,
+  ) async {
+    try {
+      var response = await getit.get<DioClient>().post(
+        ApiUrls.ressetPassword,
+        data: ressetPasswordModel.toMap(),
       );
 
       return Right(response.data);

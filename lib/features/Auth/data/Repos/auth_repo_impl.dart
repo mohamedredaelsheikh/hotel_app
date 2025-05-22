@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:hotel_app/core/errors/failure.dart';
 import 'package:hotel_app/core/utils/service_locator.dart';
 import 'package:hotel_app/features/Auth/Domain/Repos/auth_repo.dart';
+import 'package:hotel_app/features/Auth/data/models/ressetpasswordmodel.dart';
 import 'package:hotel_app/features/Auth/data/models/sign_in_req_model.dart';
 import 'package:hotel_app/features/Auth/data/models/sign_up_req_model.dart';
 import 'package:hotel_app/features/Auth/data/models/user_model.dart';
@@ -78,6 +79,23 @@ class AuthRepoImpl extends AuthRepo {
     String otp,
   ) async {
     var result = await getit.get<AuthApiService>().verfiypassword(email, otp);
+    return result.fold(
+      (error) {
+        return Left(error);
+      },
+      (data) {
+        return Right(data);
+      },
+    );
+  }
+
+  @override
+  Future<Either<Failure, dynamic>> ressetpassword(
+    Ressetpasswordmodel ressetpasswordmodel,
+  ) async {
+    var result = await getit.get<AuthApiService>().ressetpassword(
+      ressetpasswordmodel,
+    );
     return result.fold(
       (error) {
         return Left(error);

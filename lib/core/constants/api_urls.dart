@@ -5,4 +5,5 @@ class ApiUrls {
   static const String currentUser = '$baseUrl/CurrentUser';
   static const String forgetPassword = '$baseUrl/ForgetPassword';
   static const String verfiyPassword = '$baseUrl/ResetPaswordOtp';
+  static const String ressetPassword = '$baseUrl/ResetPasword';
 }

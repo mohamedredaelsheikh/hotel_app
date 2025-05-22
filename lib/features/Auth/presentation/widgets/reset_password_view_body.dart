@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hotel_app/core/utils/app_route.dart';
 import 'package:hotel_app/core/constants/constants.dart';
+import 'package:hotel_app/core/utils/service_locator.dart';
 import 'package:hotel_app/core/utils/styles.dart';
 import 'package:hotel_app/core/widgets/custom_button.dart';
 import 'package:hotel_app/core/widgets/customtextfield.dart';
+import 'package:hotel_app/features/Auth/Domain/Usecases/resset_password_usecase.dart';
+import 'package:hotel_app/features/Auth/data/models/ressetpasswordmodel.dart';
+import 'package:hotel_app/features/Auth/presentation/manager/AuthButtomCubit/auth_buttom_cubit.dart';
 
 class ResetPasswordViewBody extends StatefulWidget {
   const ResetPasswordViewBody({super.key});
@@ -28,6 +33,10 @@ class _ResetPasswordViewBodyState extends State<ResetPasswordViewBody> {
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, String> data =
+        GoRouterState.of(context).extra as Map<String, String>;
+    final email = data['email']!;
+    final token = data['token']!;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
       child: Form(
@@ -78,15 +87,24 @@ class _ResetPasswordViewBodyState extends State<ResetPasswordViewBody> {
                 buttomname: 'Continue',
                 textColor: Colors.white,
                 backgroundColor: kPrimaryColor,
-                onTap: () {
+                onTap: () async {
                   if (_formKey.currentState!.validate()) {
-                    // هنا هتحط الـ logic بتاع إعادة تعيين كلمة المرور
-                    // مثلاً باستخدام Firebase أو API
+                    context.read<AuthButtomCubit>().excute(
+                      usecase: getit<RessetPasswordUsecase>(),
+                      params: Ressetpasswordmodel(
+                        email: email,
+                        token: token,
+                        newPassword: passwordController.text,
+                        confirmPassword: confirmPasswordController.text,
+                      ),
+                    );
+
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text('Password has been reset successfully'),
                       ),
                     );
+                    if (!mounted) return;
                     // رجّع المستخدم لشاشة SignInView
                     context.go(AppRouter.kSignInView);
                   }
